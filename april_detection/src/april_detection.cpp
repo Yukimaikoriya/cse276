@@ -29,7 +29,7 @@ AprilDetection::AprilDetection(){
   a_detector = apriltag_detector_create();
 
   // tag41h12
-  tf = tag41h12_create();
+  tf = tagStandard41h12_create();
 
   //getopt_t *getopt = getopt_create();
   //const char *famname = getopt_get_string(getopt, "family");
