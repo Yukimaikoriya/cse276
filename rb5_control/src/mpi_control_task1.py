@@ -107,8 +107,8 @@ class MegaPiController:
     def wait(self, t=1):
         time.sleep(t)
     def move_fb(self, dist):
-        d2t = 0.0001
-        spd = 30
+        d2t = 0.00047
+        spd = -30
         if dist < 0:
             dist = -dist
             spd = -spd
@@ -116,8 +116,8 @@ class MegaPiController:
         self.wait(d2t * dist)
         self.carStop()
     def rotate(self, angle):
-        a2t = 0.02
-        spd = 30
+        a2t = 0.024
+        spd = -30
         if angle < 0:
             spd = -spd
             angle = -angle
@@ -149,8 +149,11 @@ class MegaPiController:
         self.move_fb(14142)
         self.wait()#5
         self.move_fb(14142)
-        self.rotate(45) #6
+        self.rotate(-45) #6
 
+    def init(self):
+        self.carStop()
+        self.wait(5)
     def test(self):
         self.move_fb(10000)
         self.wait()
@@ -163,5 +166,7 @@ class MegaPiController:
 
 if __name__ == "__main__":
     mpi_ctrl = MegaPiController(port='/dev/ttyUSB0', verbose=True)
-    mpi_ctrl.test()
+    mpi_ctrl.init()
+    mpi_ctrl.execute()
+    mpi_ctrl.close()
     # print("If your program cannot be closed properly, check updated instructions in google doc.")
