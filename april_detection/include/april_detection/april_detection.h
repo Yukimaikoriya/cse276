@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <opencv2/opencv.hpp>
 #include <apriltag/apriltag.h>
 #include <apriltag/apriltag_pose.h>
-#include <apriltag/tag36h11.h>
+#include <apriltag/tag41h12.h>
 #include <apriltag/common/getopt.h>
 #include <bits/stdc++.h>
 
