@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, Pose
 from april_detection.msg import AprilTagDetectionArray
 import tf.transformations as tft
 import numpy as np
@@ -33,6 +33,15 @@ class LocatorNode:
         ret.angular.y = angles[1]
         ret.angular.z = angles[2]
         return ret
+    @staticmethod
+    def pose_convert(pos):
+        ret = Twist()
+        ret.linear = pos.position
+        angles = (lambda o : tft.euler_from_quaternion([o.x, o.y, o.z, o.w]))(pos.orientation)
+        ret.angular.x = angles[0]
+        ret.angular.y = angles[1]
+        ret.angular.z = angles[2]
+        return ret
     def __init__(self, publisher):
         self.pub = publisher
         self.current = genTwistMsg([0,0,0])
@@ -46,21 +55,17 @@ class LocatorNode:
         for det in detections.detections:
             id = det.id
             pose = det.pose
-            if id in self.recorded:
-                diff = LocatorNode.pose_diff(self.recorded[id], pose)
-                self.diff[id] = (True, diff)
-            else:
-                self.diff[id] = (False, None)
-            self.recorded[id] = pose
+            self.recorded[id] = LocatorNode.pose_convert(pose)
+            self.diff[id] = True
         # remove unseen tags
         for id in list(self.recorded.keys()):
             if id not in self.diff:
                 del self.recorded[id]
         # write log for now
         log = []
-        for k,(e, v) in self.diff.items():
-            if e:
-                log.append('#%s\tdx=%s\tdy=%s\tdz=%s\tax=%s\tay=%s\taz=%s' % (
+        for k,v in self.recorded.items():
+            if True:
+                log.append('#%s\tpx=%s\tpy=%s\tpz=%s\tax=%s\tay=%s\taz=%s' % (
                     k, v.linear.x, v.linear.y, v.linear.z,
                     v.angular.x, v.angular.y, v.angular.z
                 ))

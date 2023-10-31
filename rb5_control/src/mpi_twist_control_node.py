@@ -13,7 +13,7 @@ class MegaPiControllerNode:
         self.r = 0.025 # radius of the wheel
         self.lx = 0.055 # half of the distance between front wheel and back wheel
         self.ly = 0.07 # half of the distance between left wheel and right wheel
-        self.calibration = 100.0
+        self.calibration = 70.0
 
     def twist_callback(self, twist_cmd):
         desired_twist = self.calibration * np.array([[twist_cmd.linear.x], [twist_cmd.linear.y], [twist_cmd.angular.z]])
@@ -30,7 +30,7 @@ class MegaPiControllerNode:
         
 
 if __name__ == "__main__":
-    mpi_ctrl_node = MegaPiControllerNode()
+    mpi_ctrl_node = MegaPiControllerNode(verbose=True)
     rospy.init_node('megapi_controller')
     rospy.Subscriber('/twist', Twist, mpi_ctrl_node.twist_callback, queue_size=1) 
     
