@@ -127,15 +127,16 @@ class MegaPiController:
         self.wait(a2t * angle)
         self.carStop()
     def callback(self, cmd):
+        spd = 30
         if cmd.x > 0:
             rospy.loginfo('Forward')
-            self.carStraight(-30)
+            self.carStraight(-spd)
         elif cmd.y > 0:
             rospy.loginfo('Left turn')
-            self.carRotate(30)
+            self.carRotate(spd)
         elif cmd.z > 0:
             rospy.loginfo('Right turn')
-            self.carRotate(-30)
+            self.carRotate(-spd)
         else:
             rospy.loginfo('Stopping')
             self.carStop()

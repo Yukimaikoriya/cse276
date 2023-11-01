@@ -98,7 +98,7 @@ class LocatorNode:
 
         # Step 3: publish tf world -> camera
         a_w2c = m2a(m_w2c)
-        self.pub.publish(point(a_w2c[2], a_w2c[0], a_w2c[4])) # x, y, theta
+        self.pub.publish(point(a_w2c[2], -a_w2c[0], a_w2c[4])) # x, y, theta
 
         # Step 4: do calibration for the uncalibrated
         for det in detections.detections:
